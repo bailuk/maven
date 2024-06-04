@@ -1,0 +1,25 @@
+= Document Title
+
+== Section 1
+
+This is a paragraph
+
+=== Subsection 1.1
+
+This is a subsection.
+
+* Item 1
+* Item 2
+
+==== Subsubsection 1.1.1.
+
+This is a sub-subsection
+
+[source, java]
+----
+public class HelloWorld {
+    public static void main(String ...args) {
+        System.out.println("HelloWorld!")
+    }
+}
+----
