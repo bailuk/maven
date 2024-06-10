@@ -34,6 +34,16 @@
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-site-plugin</artifactId>
       <version>3.7.1</version>
+            <configuration>
+                <customReports>
+                    <customReport>
+                        <name>Custom Report</name>
+                        <description>My Custom Report Description</description>
+                        <location>src/site/i</location>
+                    </customReport>
+                </customReports>
+            </configuration>
+
       <dependencies>
         <dependency>
           <groupId>org.asciidoctor</groupId>
@@ -46,6 +56,46 @@
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-project-info-reports-plugin</artifactId>
       <version>3.0.0</version>
+    </plugin>
+    <plugin>
+      <groupId>com.github.ferstl</groupId>
+      <artifactId>depgraph-maven-plugin</artifactId>
+      <version>4.0.3</version>
+      <executions>
+        <execution>
+          <phase>site</phase>
+          <goals>
+            <goal>graph</goal>
+          </goals>
+        </execution>
+      </executions>
+      <configuration>
+        <createImage>true</createImage>
+        <outputDirectory>${project.build.directory}/site/depgraph</outputDirectory>
+        <includeTransitive>true</includeTransitive>
+      </configuration>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-antrun-plugin</artifactId>
+      <version>1.8</version>
+      <executions>
+        <execution>
+          <phase>site</phase>
+          <goals>
+            <goal>run</goal>
+          </goals>
+          <configuration>
+            <tasks>
+              <replaceregexp byline="true">
+                <fileset dir="${project.build.directory}/site" includes="**/*.html"/>
+                <regexp pattern="href.*REPLACEME"/>
+                <substitution expression="href=&quot;depgraph"/>
+              </replaceregexp>
+            </tasks>
+          </configuration>
+        </execution>
+      </executions>
     </plugin>
   </plugins>
 </build>
